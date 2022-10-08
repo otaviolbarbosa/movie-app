@@ -14,6 +14,12 @@ export const MovieList = () => {
   const [displayOptionType, setDisplayOptionType] = useState('button');
 
   // TODO: Display list of movies
+  const handleAddMovie = () => {
+    moviesDispatch({
+      type: 'add',
+      payload: {}
+    })
+  }
   
   return (
     <div className="card-deck">
@@ -25,6 +31,7 @@ export const MovieList = () => {
       <Card>
         {/* TODO: Implement displaying appropriate card for add movie - button or form */}
         {/* TODO: use AddMovieButton and AddMovieForm */}
+        <AddMovieButton onClick={handleAddMovie} />
       </Card>
     </div>
   );

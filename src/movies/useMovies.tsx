@@ -15,16 +15,41 @@ export function useMoviesCollection(): [MoviesState, React.Dispatch<MoviesAction
   const movieReducer = (state: MoviesState, action: MoviesAction): MoviesState => {
     switch (action.type) {
       case 'fetch':
-        return { ...state };
+        return {
+          ...state,
+          movies: action.payload.data,
+          initialized: true
+        };
 
       case 'add':
-        return { ...state };
+        return {
+          ...state,
+          movies: [
+            ...state.movies,
+            {
+              ...action.payload.movie,
+              id: uuid(),
+              ratings: [],
+            }
+          ] };
 
       case 'delete':
-        return { ...state };
+        return {
+          ...state,
+          movies: state.movies.filter(movie => action.payload.movieId === movie.id)
+        };
 
       case 'rate':
-        return { ...state };
+        return {
+          ...state,
+          movies: state.movies.map(movie => {
+            if(movie.id === action.payload.movieId) {
+              movie.ratings.push(action.payload.rating);
+            }
+            
+            return movie;
+          })
+        };
 
       default:
         return state
@@ -38,6 +63,14 @@ export function useMoviesCollection(): [MoviesState, React.Dispatch<MoviesAction
 
   useEffect(() => {
     // TODO: Call fetch action
+    const fetchMovies = async () => {
+      const movies = await getMovies();
+      dispatch({type: 'fetch', payload: {
+        data: movies
+      }});
+    }
+
+    fetchMovies();
   }, []);
 
   return [state, dispatch];
