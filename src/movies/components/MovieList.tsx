@@ -11,14 +11,25 @@ type NewMovieMode = "BUTTON" | "FORM"
 
 export const MovieList = () => {
   const { movies, moviesDispatch } = useMovies();
-  const [displayOptionType, setDisplayOptionType] = useState('button');
+  const [displayOptionType, setDisplayOptionType] = useState<NewMovieMode>('BUTTON');
 
   // TODO: Display list of movies
-  const handleAddMovie = () => {
+  const handleShowForm = () => {
+    setDisplayOptionType('FORM');
+  }
+  
+  const handleCloseForm = () => {
+    setDisplayOptionType('BUTTON');
+  }
+
+  const handleSubmit = (data: Record<"imageUrl" | "title" | "subtitle" | "description", string>) => {
     moviesDispatch({
       type: 'add',
-      payload: {}
+      payload: {
+        movie: data
+      }
     })
+    setDisplayOptionType('BUTTON');
   }
   
   return (
@@ -31,7 +42,8 @@ export const MovieList = () => {
       <Card>
         {/* TODO: Implement displaying appropriate card for add movie - button or form */}
         {/* TODO: use AddMovieButton and AddMovieForm */}
-        <AddMovieButton onClick={handleAddMovie} />
+        {displayOptionType === 'BUTTON' && <AddMovieButton onClick={handleShowForm} />}
+        {displayOptionType === 'FORM' && <AddMovieForm onSubmit={handleSubmit} onCancel={handleCloseForm} />}
       </Card>
     </div>
   );

@@ -32,7 +32,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         // throw new Error('Function not implemented.');
     }
 
-    const avgRating = movie.ratings.reduce((a, b) => a + b ) / movie.ratings.length;
+    const avgRating = getAvgRating(movie);
 
     return (
         <div data-testid={`movie-item-${movie.id}`}>
@@ -64,7 +64,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
                 </div>
                 {/* TODO: Display rating value */}
                 <div data-testid="movie-rating" className="card-footer-badge float-right badge badge-primary badge-pill">
-                    
+                    {avgRating}
                 </div>
                 </div>
             </div>

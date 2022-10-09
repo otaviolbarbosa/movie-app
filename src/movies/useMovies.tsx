@@ -36,7 +36,7 @@ export function useMoviesCollection(): [MoviesState, React.Dispatch<MoviesAction
       case 'delete':
         return {
           ...state,
-          movies: state.movies.filter(movie => action.payload.movieId === movie.id)
+          movies: state.movies.filter(movie => action.payload.movieId !== movie.id)
         };
 
       case 'rate':
